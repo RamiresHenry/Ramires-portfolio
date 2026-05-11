@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Stock Control System - Ramires Henrique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .project-detail {
+            padding: 150px 0 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: #00d4aa;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-btn:hover { text-decoration: underline; }
+        .project-header { text-align: center; margin-bottom: 50px; }
+        .project-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00d4aa 0%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .project-info {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        .project-info h2 { color: #00d4aa; margin-bottom: 20px; margin-top: 30px; }
+        .project-info h2:first-of-type { margin-top: 0; }
+        .project-info p { color: #cbd5e1; line-height: 1.8; margin-bottom: 20px; }
+        .tech-used { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .code-section {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .code-section pre { color: #00d4aa; font-family: 'Courier New', monospace; }
+        .github-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d4aa 0%, #0099ff 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .github-link:hover { transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><a href="index.html">Ramires Henrique</a></div>
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="index.html#projects" class="nav-link">Projects</a></li>
+                    <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="project-detail">
+        <a href="index.html#projects" class="back-btn">← Back to Projects</a>
+        
+        <div class="project-header">
+            <h1>Automated Stock Control System</h1>
+        </div>
+
+        <div class="project-info">
+            <h2>📋 Project Overview</h2>
+            <p>Excel-based automated system monitoring zero and minimum stock levels for over 20,000 products across 8 sectors at BA Elétrica. Integrated with TOTVS ERP, eliminating manual control inaccuracies.</p>
+            
+            <h2>⚙️ Technologies Used</h2>
+            <div class="tech-used">
+                <span class="tech-tag">Excel</span>
+                <span class="tech-tag">TOTVS ERP</span>
+                <span class="tech-tag">VBA</span>
+                <span class="tech-tag">Inventory Control</span>
+                <span class="tech-tag">Data Analysis</span>
+            </div>
+
+            <h2>📊 Key Results</h2>
+            <p>✓ Monitored 20,000+ products in real-time<br>
+            ✓ Eliminated manual inventory errors<br>
+            ✓ Improved demand fulfillment across all 8 sectors<br>
+            ✓ Reduced stockouts by 45%<br>
+            ✓ Automated reordering alerts</p>
+
+            <h2>🔧 How It Works</h2>
+            <div class="code-section">
+                <pre>
+1. Extract inventory data from TOTVS ERP
+2. Automatically calculate min/max stock levels
+3. Flag items below safety stock
+4. Generate automatic purchase orders
+5. Send email alerts to procurement team
+                </pre>
+            </div>
+
+            <a href="https://github.com/RamiresHenry/Ramires-Henrique-port" class="github-link" target="_blank">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
