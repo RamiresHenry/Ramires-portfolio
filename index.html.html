@@ -1,456 +1,565 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramires Henrique - Data Analyst | Logistics Specialist</title>
-    <meta name="description" content="Data Analyst specializing in logistics, process automation, and business intelligence">
+// DOM Content Loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all functions
+    initNavigation();
+    initScrollAnimations();
+    initContactForm();
+    initSmoothScrolling();
+    initTypingEffect();
+    initParallaxEffect();
+});
+
+// Navigation functionality
+function initNavigation() {
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Mobile menu toggle
+    navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+        });
+    });
+
+    // Navbar scroll effect
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add scrolled class for styling
+        if (scrollTop > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+
+        // Hide/show navbar on scroll
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+
+    // Active navigation link highlighting
+    const sections = document.querySelectorAll('section[id]');
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    function highlightActiveSection() {
+        const scrollY = window.pageYOffset;
+        
+        sections.forEach(section => {
+            const sectionHeight = section.offsetHeight;
+            const sectionTop = section.offsetTop - 100;
+            const sectionId = section.getAttribute('id');
+            const navLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+            
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                if (navLink) {
+                    navLink.classList.add('active');
+                }
+            }
+        });
+    }
+
+    window.addEventListener('scroll', highlightActiveSection);
+}
+
+// Smooth scrolling for navigation links
+function initSmoothScrolling() {
+    const navLinks = document.querySelectorAll('a[href^="#"]');
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const offsetTop = targetSection.offsetTop - 80;
+                
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+// Scroll animations
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -20px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                
+                // Add stagger animation for grid items
+                if (entry.target.classList.contains('projects-grid') || 
+                    entry.target.classList.contains('blog-grid') ||
+                    entry.target.classList.contains('skills-grid')) {
+                    
+                    const items = entry.target.children;
+                    Array.from(items).forEach((item, index) => {
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                            item.classList.add('appear');
+                        }, index * 150);
+                    });
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements for animations
+    const animatedElements = document.querySelectorAll(`
+        .hero-content,
+        .about-content,
+        .timeline,
+        .projects-grid,
+        .skills-grid,
+        .blog-grid,
+        .contact-content,
+        .project-card,
+        .blog-card,
+        .skill-category,
+        .timeline-item
+    `);
+
+    animatedElements.forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+
+    // Initialize grid items with better visibility
+    document.querySelectorAll('.project-card, .blog-card, .skill-category').forEach(item => {
+        item.style.opacity = '0.3';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+}
+
+// Typing effect for hero section
+function initTypingEffect() {
+    const roles = [
+        'Data Engineer',
+        'UI/UX Engineer', 
+        'Healthcare Tech Specialist',
+        'Fintech Developer'
+    ];
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#home">Ramires Henrique</a>
-            </div>
-            <div class="nav-menu" id="nav-menu">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="#home" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#about" class="nav-link">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#experience" class="nav-link">Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#projects" class="nav-link">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#skills" class="nav-link">Skills</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#contact" class="nav-link">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="nav-toggle" id="nav-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        Hi, I'm <span class="highlight">Ramires Henrique</span>
-                    </h1>
-                    <p class="hero-subtitle">Data Analyst & Logistics Specialist</p>
-                    <p class="hero-description">
-                        3+ years of experience with analytical tools. Advanced Excel and Power BI, with SQL in progress. Practical experience in Python (Pandas) for process automation and dashboard creation. Driven by the challenge of transforming data into strategic insights and optimizing decision-making.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">Explore Projects</a>
-                        <a href="#contact" class="btn btn-secondary">Let's Connect</a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <!-- Replace with your photo -->
-                    <img src="assets/profile-photo.jpg" alt="Ramires Henrique" class="profile-img">
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <i class="fas fa-chevron-down"></i>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">About Me</h2>
-                <p class="section-subtitle">Get to know my professional journey</p>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="about-description">
-                        I'm a Data Analyst with a solid background in Logistics, combining operational experience with analytical skills. My journey started in warehousing and inventory, which gave me a deep understanding of operational challenges. Today, I use data to solve those same challenges through automation and business intelligence.
-                    </p>
-                    <p class="about-description">
-                        I specialize in process automation using Python (Pandas, Openpyxl) and creating interactive dashboards in Power BI and Excel. I'm fluent in English and French, which allows me to work in international environments and collaborate with global teams.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <h3 class="stat-number">3+</h3>
-                            <p class="stat-label">Years Experience</p>
-                        </div>
-                        <div class="stat">
-                            <h3 class="stat-number">3</h3>
-                            <p class="stat-label">Companies</p>
-                        </div>
-                        <div class="stat">
-                            <h3 class="stat-number">3</h3>
-                            <p class="stat-label">Automation Projects</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Professional Experience</h2>
-                <p class="section-subtitle">My journey through logistics and data analytics</p>
-            </div>
-            <div class="timeline">
-                <!-- Top Nutri Experience -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-period">May 2025 - Present</div>
-                        <h3 class="timeline-title">Logistics Administration (with emphasis on Data Analysis)</h3>
-                        <h4 class="timeline-company">TopNutri Nutrição Animal</h4>
-                        <p class="timeline-description">
-                            Perform ETL (Extract, Transform, Load) of customer and carrier data from Sankhya ERP, using advanced Excel for consolidation and data quality assurance. Develop interactive dashboards in Power BI and Excel for real-time monitoring of production, minimum stock levels, and billing, providing visual insights for management decision-making.
-                        </p>
-                        <p class="timeline-description" style="margin-top: 10px; font-weight: 500;">
-                            <strong>Key Project:</strong> Led a process automation project that reduced daily cargo status update time from 4 hours to just 10 minutes. Using Python (Pandas and Openpyxl), developed a script that extracted data from Sankhya, applied business rules, and automatically fed a tracking dashboard, increasing update accuracy and frequency.
-                        </p>
-                        <div class="timeline-tags">
-                            <span class="timeline-tag">Python</span>
-                            <span class="timeline-tag">Pandas</span>
-                            <span class="timeline-tag">Power BI</span>
-                            <span class="timeline-tag">Excel</span>
-                            <span class="timeline-tag">Sankhya ERP</span>
-                            <span class="timeline-tag">ETL</span>
-                            <span class="timeline-tag">Automation</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- BA Elétrica Experience -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-period">2022 - 2024</div>
-                        <h3 class="timeline-title">Expedition (with emphasis on Data Analysis)</h3>
-                        <h4 class="timeline-company">BA Elétrica</h4>
-                        <p class="timeline-description">
-                            Implemented rotating inventory control and stock analysis via Excel, ensuring data accuracy and supporting the quality department. Managed data extraction from TOTVS ERP for analysis and reporting.
-                        </p>
-                        <p class="timeline-description" style="margin-top: 10px; font-weight: 500;">
-                            <strong>Key Project:</strong> Developed an automated stock control model in Excel, using data extracted from the TOTVS system. The model monitored zero and minimum stock levels for over 20,000 products, eliminating inaccuracies from manual control and improving demand fulfillment across all sectors.
-                        </p>
-                        <div class="timeline-tags">
-                            <span class="timeline-tag">Excel</span>
-                            <span class="timeline-tag">TOTVS ERP</span>
-                            <span class="timeline-tag">Inventory Control</span>
-                            <span class="timeline-tag">Data Analysis</span>
-                            <span class="timeline-tag">Automation</span>
-                            <span class="timeline-tag">Rotating Inventory</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">Data analysis and automation projects I've led</p>
-            </div>
-            <div class="projects-grid">
-                <!-- Project 1: TopNutri Automation -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Project Details">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Cargo Status Automation</h3>
-                        <p class="project-description">
-                            Automated cargo status updates using Python (Pandas, Openpyxl) to extract data from Sankhya ERP. Reduced update time from 4 hours daily to just 10 minutes, with automated dashboard updates.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Sankhya</span>
-                            <span class="tech-tag">ETL</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 2: BA Elétrica Stock Control -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-boxes"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Project Details">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Automated Stock Control System</h3>
-                        <p class="project-description">
-                            Excel-based automated system monitoring zero and minimum stock for 20,000+ products. Integrated with TOTVS ERP, eliminating manual control inaccuracies across 8 sectors.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Excel</span>
-                            <span class="tech-tag">TOTVS</span>
-                            <span class="tech-tag">VBA</span>
-                            <span class="tech-tag">Inventory</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3: Power BI Dashboard -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Project Details">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Real-time Production Dashboard</h3>
-                        <p class="project-description">
-                            Interactive Power BI dashboard for real-time monitoring of production, minimum stock levels, and billing. Provides visual insights for management decision-making at TopNutri.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Power BI</span>
-                            <span class="tech-tag">DAX</span>
-                            <span class="tech-tag">Excel</span>
-                            <span class="tech-tag">Dashboards</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Skills & Technologies</h2>
-                <p class="section-subtitle">Tools and expertise I bring to the table</p>
-            </div>
-            <div class="skills-grid">
-                <!-- Data Analysis Tools -->
-                <div class="skill-category">
-                    <h3 class="category-title">Data Analysis Tools</h3>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <i class="fas fa-table"></i>
-                            <span>Excel (Advanced)</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-chart-pie"></i>
-                            <span>Power BI (DAX, Dashboards)</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-code"></i>
-                            <span>SQL (in progress)</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-python"></i>
-                            <span>Python (Pandas, Openpyxl)</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-robot"></i>
-                            <span>Process Automation</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ERP Systems -->
-                <div class="skill-category">
-                    <h3 class="category-title">ERP Systems</h3>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <i class="fas fa-database"></i>
-                            <span>TOTVS</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-cloud"></i>
-                            <span>Sankhya</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>ETL Processes</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Languages & Soft Skills -->
-                <div class="skill-category">
-                    <h3 class="category-title">Languages & Soft Skills</h3>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <i class="fas fa-language"></i>
-                            <span>English (Advanced)</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-language"></i>
-                            <span>French (Advanced)</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span>Logistics Degree</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Analytical Thinking</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-users"></i>
-                            <span>Cross-functional Communication</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">Let's work together on your next data project</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>Email</h3>
-                            <p>ramireshsc@gmail.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>Phone</h3>
-                            <p>+55 34 98425-0502</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-linkedin"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>LinkedIn</h3>
-                            <p>linkedin.com/in/ramires-henrique</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>Location</h3>
-                            <p>Uberlândia - MG, Brazil (Open to Remote)</p>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/ramires-henrique" class="social-link" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://github.com/ramireshsc" class="social-link" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-               <form class="contact-form" action="https://formsubmit.co/ramireshsc@gmail.com" method="POST">
-    <input type="hidden" name="_captcha" value="false">
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (!heroSubtitle) return;
     
-    <div class="form-group">
-        <input type="text" id="name" name="name" placeholder="Your Name" required>
-    </div>
-    <div class="form-group">
-        <input type="email" id="email" name="email" placeholder="Your Email" required>
-    </div>
-    <div class="form-group">
-        <input type="text" id="subject" name="subject" placeholder="Subject" required>
-    </div>
-    <div class="form-group">
-        <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Send Message</button>
-</form>
-            </div>
-        </div>
-    </section>
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let currentRole = '';
+    
+    function typeRole() {
+        const role = roles[roleIndex];
+        
+        if (isDeleting) {
+            currentRole = role.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            currentRole = role.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        heroSubtitle.textContent = currentRole;
+        
+        let typeSpeed = isDeleting ? 50 : 100;
+        
+        if (!isDeleting && charIndex === role.length) {
+            typeSpeed = 2000; // Pause at end
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            roleIndex = (roleIndex + 1) % roles.length;
+            typeSpeed = 500; // Pause before next role
+        }
+        
+        setTimeout(typeRole, typeSpeed);
+    }
+    
+    // Start typing effect after initial delay
+    setTimeout(typeRole, 1000);
+}
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Ramires Henrique. All rights reserved.</p>
-                <p>Data Analyst & Logistics Specialist Portfolio</p>
-            </div>
-        </div>
-    </footer>
+// Parallax effect for hero section (improved)
+function initParallaxEffect() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    
+    let ticking = false;
+    
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const parallaxSpeed = 0.3;
+        
+        // Only apply parallax to pseudo-elements to avoid text displacement
+        hero.style.setProperty('--scroll-offset', `${scrolled * parallaxSpeed}px`);
+        
+        ticking = false;
+    }
+    
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    });
+}
 
-    <!-- JavaScript -->
-    <script src="js/script.js"></script>
-</body>
-</html>
+// Contact form functionality
+function initContactForm() {
+    const contactForm = document.getElementById('contact-form');
+    if (!contactForm) return;
+    
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const formObject = {};
+        
+        // Convert FormData to object
+        formData.forEach((value, key) => {
+            formObject[key] = value;
+        });
+        
+        // Validate form
+        if (validateForm(formObject)) {
+            submitForm(formObject);
+        }
+    });
+}
+
+// Form validation
+function validateForm(data) {
+    const errors = [];
+    
+    // Name validation
+    if (!data.name || data.name.trim().length < 2) {
+        errors.push('Name must be at least 2 characters long');
+        highlightField('name', true);
+    } else {
+        highlightField('name', false);
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!data.email || !emailRegex.test(data.email)) {
+        errors.push('Please enter a valid email address');
+        highlightField('email', true);
+    } else {
+        highlightField('email', false);
+    }
+    
+    // Subject validation
+    if (!data.subject || data.subject.trim().length < 3) {
+        errors.push('Subject must be at least 3 characters long');
+        highlightField('subject', true);
+    } else {
+        highlightField('subject', false);
+    }
+    
+    // Message validation
+    if (!data.message || data.message.trim().length < 10) {
+        errors.push('Message must be at least 10 characters long');
+        highlightField('message', true);
+    } else {
+        highlightField('message', false);
+    }
+    
+    // Display errors
+    if (errors.length > 0) {
+        showNotification('Please fix the following errors:\n• ' + errors.join('\n• '), 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+// Highlight form fields with errors
+function highlightField(fieldName, hasError) {
+    const field = document.getElementById(fieldName);
+    if (!field) return;
+    
+    if (hasError) {
+        field.style.borderColor = '#e74c3c';
+        field.style.backgroundColor = '#fdf2f2';
+    } else {
+        field.style.borderColor = '#27ae60';
+        field.style.backgroundColor = '#f2fdf2';
+    }
+}
+
+// Submit form (simulate form submission)
+function submitForm(data) {
+    const submitButton = document.querySelector('.contact-form button[type="submit"]');
+    const originalText = submitButton.textContent;
+    
+    // Show loading state
+    submitButton.innerHTML = '<span class="loading"></span> Sending...';
+    submitButton.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+        // Reset form
+        document.getElementById('contact-form').reset();
+        
+        // Reset button
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+        
+        // Reset field styles
+        ['name', 'email', 'subject', 'message'].forEach(field => {
+            const element = document.getElementById(field);
+            if (element) {
+                element.style.borderColor = '#e9ecef';
+                element.style.backgroundColor = 'white';
+            }
+        });
+        
+        // Show success message
+        showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
+        
+        console.log('Form submitted with data:', data);
+    }, 2000);
+}
+
+// Notification system
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas ${getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Add styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: ${getNotificationColor(type)};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 10000;
+        max-width: 400px;
+        animation: slideIn 0.3s ease;
+        white-space: pre-line;
+    `;
+    
+    // Add animation keyframes if not exists
+    if (!document.querySelector('#notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            .notification-content {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .notification-close {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                padding: 0;
+                margin-left: auto;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Helper functions for notifications
+function getNotificationIcon(type) {
+    const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle',
+        info: 'fa-info-circle'
+    };
+    return icons[type] || icons.info;
+}
+
+function getNotificationColor(type) {
+    const colors = {
+        success: '#27ae60',
+        error: '#e74c3c',
+        warning: '#f39c12',
+        info: '#3498db'
+    };
+    return colors[type] || colors.info;
+}
+
+// Lazy loading for images
+function initLazyLoading() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                observer.unobserve(img);
+            }
+        });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+
+
+// Performance optimization
+function optimizePerformance() {
+    // Debounce scroll events
+    let scrollTimeout;
+    const originalScrollHandler = window.onscroll;
+    
+    window.onscroll = function() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            if (originalScrollHandler) originalScrollHandler();
+        }, 10);
+    };
+    
+    // Preload critical resources
+    const criticalResources = [
+        'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+    ];
+    
+    criticalResources.forEach(url => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'style';
+        link.href = url;
+        document.head.appendChild(link);
+    });
+}
+
+// Initialize additional features
+window.addEventListener('load', function() {
+    initLazyLoading();
+    optimizePerformance();
+});
+
+// Error handling
+window.addEventListener('error', function(e) {
+    console.error('JavaScript error:', e.error);
+    // In production, you might want to send this to an error reporting service
+});
+
+// Service Worker registration (for PWA features)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed');
+            });
+    });
+}
+
+// Accessibility improvements
+function initAccessibility() {
+    // Skip to main content link
+    const skipLink = document.createElement('a');
+    skipLink.href = '#main';
+    skipLink.textContent = 'Skip to main content';
+    skipLink.className = 'skip-link';
+    skipLink.style.cssText = `
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        text-decoration: none;
+        z-index: 10000;
+        transition: top 0.3s;
+    `;
+    
+    skipLink.addEventListener('focus', () => {
+        skipLink.style.top = '6px';
+    });
+    
+    skipLink.addEventListener('blur', () => {
+        skipLink.style.top = '-40px';
+    });
+    
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    // Keyboard navigation for mobile menu
+    const navToggle = document.getElementById('nav-toggle');
+    navToggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navToggle.click();
+        }
+    });
+}
+
+// Initialize accessibility features
+document.addEventListener('DOMContentLoaded', initAccessibility);
+
+// Export functions for testing (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        validateForm,
+        showNotification,
+        highlightField
+    };
+}
