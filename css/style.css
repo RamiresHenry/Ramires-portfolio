@@ -1626,3 +1626,25 @@ h1, h2, h3, h4, h5, h6 {
         color: #333 !important;
     }
 }
+
+/* Permitir seleção de texto nos contatos */
+.contact-details p,
+.contact-details a,
+.contact-item p,
+.contact-item a {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    cursor: text;
+}
+
+/* Deixar o link do LinkedIn com cursor de texto também */
+.contact-item a[href*="linkedin"] {
+    cursor: pointer;
+}
+
+/* Para telefone e email */
+.contact-item a[href^="mailto"],
+.contact-item a[href^="tel"] {
+    cursor: pointer;
+}
