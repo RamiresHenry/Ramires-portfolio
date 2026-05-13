@@ -1627,7 +1627,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-/* Permitir seleção de texto nos contatos */
+/* Permitir seleção de texto nos contatos - Versão 1 */
 .contact-details p,
 .contact-details a,
 .contact-item p,
@@ -1647,4 +1647,20 @@ h1, h2, h3, h4, h5, h6 {
 .contact-item a[href^="mailto"],
 .contact-item a[href^="tel"] {
     cursor: pointer;
+}
+
+/* Forçar seleção de texto nos contatos - Versão 2 (mais forte) */
+.contact-info div,
+.contact-info p {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    cursor: text !important;
+}
+
+/* Garantir que o texto dentro das divs seja selecionável */
+.contact-info [style*="display: flex"] p {
+    user-select: text !important;
+    -webkit-user-select: text !important;
 }
