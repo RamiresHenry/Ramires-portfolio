@@ -1015,6 +1015,22 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
     color: #e2e8f0;
     transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* Para telas maiores que 1200px (computador) */
+@media (min-width: 1200px) {
+    .skill-item span {
+        white-space: nowrap;
+    }
+}
+
+/* Para telas menores, permite quebra */
+@media (max-width: 1199px) {
+    .skill-item span {
+        white-space: normal;
+    }
 }
 
 .skill-item:hover span {
@@ -1678,3 +1694,5 @@ h1, h2, h3, h4, h5, h6 {
     user-select: text !important;
     -webkit-user-select: text !important;
 }
+
+
