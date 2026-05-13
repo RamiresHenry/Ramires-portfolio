@@ -50,23 +50,31 @@
             margin-bottom: 10px;
             line-height: 1.6;
         }
-        .countdown {
-            color: #0099ff;
-            font-weight: 500;
-            margin: 25px 0;
-        }
-        .back-btn {
+        .back-link {
             display: inline-block;
+            margin-top: 30px;
             padding: 12px 30px;
             background: linear-gradient(135deg, #00d4aa 0%, #0099ff 100%);
             color: white;
             text-decoration: none;
             border-radius: 8px;
             transition: transform 0.3s;
-            margin-top: 10px;
+            font-weight: 500;
         }
-        .back-btn:hover {
+        .back-link:hover {
             transform: translateY(-3px);
+        }
+        .portfolio-link {
+            margin-top: 20px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .portfolio-link a {
+            color: #00d4aa;
+            text-decoration: none;
+        }
+        .portfolio-link a:hover {
+            text-decoration: underline;
         }
         @keyframes fadeInUp {
             from {
@@ -89,28 +97,15 @@
             <h1>✅ Message Sent!</h1>
             <p>Thank you for reaching out!</p>
             <p>I've received your message and will get back to you as soon as possible.</p>
-            <div class="countdown">
-                Redirecting to homepage in <span id="countdown">5</span> seconds...
-            </div>
-            <a href="index.html" class="back-btn">
+            
+            <a href="index.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Portfolio
             </a>
+            
+            <div class="portfolio-link">
+                or visit: <a href="https://ramireshenry.github.io/Ramires-portfolio/" target="_blank">https://ramireshenry.github.io/Ramires-portfolio/</a>
+            </div>
         </div>
     </div>
-
-    <script>
-        let seconds = 5;
-        const countdownElement = document.getElementById('countdown');
-        
-        const interval = setInterval(() => {
-            seconds--;
-            countdownElement.textContent = seconds;
-            
-            if (seconds <= 0) {
-                clearInterval(interval);
-                window.location.href = 'index.html';
-            }
-        }, 1000);
-    </script>
 </body>
 </html>
